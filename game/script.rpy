@@ -36,20 +36,17 @@ a "• Check out our #links and consider supporting us"
 a "• Checking out and giving some love to our #partners"
 
 menu:
-	c "Hi."
-	jump choice1_hello
+         "Hi.":
+                jump choice1_hello
 
-	c "Fuck off Mee6"
-	jump choice1_fuckoff
-
-	label choice1_hello:
-	$ menu = True
-	a "ERROR 404"
-	jump choice1_done
-
-	label choice1_fuckoff:
-	$ menu = False
-	a "[name] has been warned for Profanity."
-	jump choice1_done
-
+         "Fuck off, MEE6":
+               jump choice2_fuckoff
+         label choice1_hello
+                a "Hi":
+                   jump choice1_done
+         label choice1_done
+         label choice2_fuckoff
+                     a "[name] has been warned for Profanity.":
+                     jump choice2_done
+         label choice2_done
 return
