@@ -11,7 +11,7 @@ label start:
         name = renpy.input('What would you like your name to be?')
         name = name.strip() or "Guy Shy"
 
-    Discord "Brace yourselves, [name] Just join the server!"
+    Discord "Brace yourselves, [name] Just joined the server!"
     
     
     "You blink."
