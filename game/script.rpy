@@ -1,54 +1,83 @@
-﻿define Mee6 = Character("Mee6")
-define Discord = Character("Discord")
-define Player = Character("[name]")
-
-label start:
-    show discord
-
-    Discord "Hey welcome to Discord, you must first choose a name for your account."
-
+﻿label start:
+    # Setup basic python variables first.
     python:
-        name = renpy.input('What would you like your name to be?')
-        name = name.strip() or "Guy Shy"
+        # PlayerData will hold all data referring to the player.
+        class PlayerData:
+            # Initialization.
+            def __init__(self, username, gender, strength, dexterity, intelligence, charisma):
+                self.username = username
+                self.gender = gender
+                self.strength = strength
+                self.dexterity = dexterity
+                self.intelligence = intelligence
+                self.charisma = charisma
 
-    Discord "Brace yourselves, [name] Just joined the server!"
-    
-    
-    "You blink."
-    "Colors rush by you as you are thrown violently in one direction and the next."
-    "You limbs flail awkwardly around the place like a fleshy ragdoll as your body stings with odd sensations."
-    "You blink three more times."
-    "You are now standing in some sort of small town like area."
-    "The sky is a cool sky-blue with an odd lattice of lines streaking across it."
-    "The sun is bright yet doesn't pierce through your eyes, allowing you to stare directly at it without any side effect."
-    "Small buildings litter the area with an occasional expanse of flora."
-    "You made it."
-    "Affray Studios..."
-    
-    
-    
-    show mee6
+    # Have Discord introduce the player to the new world they are in.
+    "Discord" "Hello and welcome to Discord."
+    "Discord" "Discord is a small group of passionate gamers whose mission is to bring people together around games."
+    "Discord" "Diversity and inclusiveness are a critical part of how we get there."
+    "Discord" "We believe that with diversity comes a better product, better decisions, and a better work environment."
+    "Discord" "Everyone here is committed to making Discord representative of the world we want to live and play in."
 
-    Mee6 "Welcome to Affray Studios, Be sure to help us by following these steps below!"
+    "Discord" "If you wish to use Discord you must first have a username for others to address you by."
 
-    Mee6 "• Check out our #links and consider supporting us"
+    jump name_input
 
-    Mee6 "• Checking out and giving some love to our #partners"
+    return
 
+label name_input
+    python:
+        # Make a global variable called temp_name as a temporary name holder.
+        global temp_name = renpy.input("Please type in your username.")
+        temp_name = temp_name.strip()
+
+        if not temp_name:
+            temp_name = "Guy Shy"
+
+    "Your username will be [temp_name]. Are you sure?"
+
+    # Check if the player made a mistake. If so, restart the label.
     menu:
-        "Hi.":
-            jump choice1_first_mee6
+        "Yes":
+            jump gender_input
 
-        "Fuck off, MEE6":
-            jump choice2_first_mee6
+        "No":
+            jump name_input
 
     return
 
-label choice1_first_mee6:
-    Mee6 "Hi"
+label gender_input:
+    "Are you male or female?"
+
+    #Check the gender of the player's character.
+    menu:
+        "Male":
+            $ global temp_gender = 'M'
+            jump connect_to_affray_studios
+        "Female":
+            $ global temp_gender = 'F'
+            jump connect_to_affray_studios
+        "Other":
+            $ global temp_gender = 'O'
+            jump connect_to_affray_studios
+    
     return
 
-label choice2_first_mee6:
-    Mee6 "[name] has been warned for Profanity."
-    Player "..."
-    return
+label connect_to_affray_studios:
+    # Set default values.
+    $ global player = Character(temp_name)
+    $ global player_data = PlayerData(temp_name, temp_gender, 0, 0, 0, 0)
+
+    # Remove temp_name and temp_gender from memory.
+    $ temp_name = null
+    $ temp_gender = null
+
+    "Discord" "Great!"
+    "Discord" "Now all we need to do is connect you to a server."
+    "Discord" "Which server would you like to connect to?"
+    menu:
+        "Affray Studios":
+            jump connect_to_affray_studios_second
+
+label connect_to_affray_studios_second:
+    "Discord" "Have fun!"
